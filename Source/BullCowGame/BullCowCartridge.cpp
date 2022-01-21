@@ -9,6 +9,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     SetupGame(); // bgameover variable= false
     PrintLine(TEXT(" the total number of words are %i."),Words.Num()); // debug line 
     PrintLine(TEXT("the total number of valid words are %i."),GetValidWords(Words).Num()); 
+    PrintLine(TEXT("The hiddenword is %s"), *HiddenWord);
 }   
 
 void UBullCowCartridge::OnInput(const FString& Input)
@@ -29,11 +30,11 @@ void UBullCowCartridge::OnInput(const FString& Input)
 
 void UBullCowCartridge::SetupGame()
     {
-        HiddenWord = TEXT("CAKE"); //WE Have TO SET HiddenWord
+        HiddenWord = GetValidWords(Words)[FMath::RandRange(0,GetValidWords(Words).Num()-1)]; //WE Have TO SET HiddenWord
         Lives=HiddenWord.Len();
         bGameOver= false;
         PrintLine(TEXT(" Welcome to Cow Game"));
-        PrintLine(TEXT("Guess the %i word.."), HiddenWord.Len()) ;  
+        PrintLine(TEXT("Guess the %i letter word.."), HiddenWord.Len()) ;  
         PrintLine(TEXT("press tab to write then press return"));
         PrintLine(TEXT("LIVES Have = %i") , Lives);
         
@@ -71,7 +72,7 @@ void UBullCowCartridge:: ProcessGuess(const FString& Guess)
     {
         PrintLine("you win!!");
         PrintLine("Press return to continue");
-        EndGame();
+        Endgame();
         return;
     }
           // check for isogram 
